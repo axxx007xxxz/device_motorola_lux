@@ -1,30 +1,25 @@
 [
   {
-    "remote": "github",
     "repository":  "AICP/device_motorola_msm8916-common",
     "target_path": "device/motorola/msm8916-common",
     "branch": "mm6.0"
   },
   {
-    "remote": "github",
     "repository":  "Moto8916/android_kernel_motorola_msm8916",
     "target_path": "kernel/motorola/msm8916",
     "branch": "cm-13.0"
   },
   {
-    "remote": "github",
     "repository":  "AICP/proprietary_vendor_motorola",
     "target_path": "vendor/motorola",
     "branch": "mm6.0"
   },
   {
-    "remote": "github",
     "repository": "Cyanogenmod/android_external_bson",
     "target_path": "external/bson",
     "branch": "cm-13.0"
   },
   {
-    "remote": "github",
     "repository": "Cyanogenmod/android_external_stlport",
     "target_path": "external/stlport",
     "branch": "cm-13.0"
