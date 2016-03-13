@@ -11,7 +11,6 @@
     "branch": "cm-13.0"
   },
   {
-    "remote": "github",
     "repository":  "proprietary_vendor_motorola",
     "target_path": "vendor/motorola",
     "branch": "mm6.0"
