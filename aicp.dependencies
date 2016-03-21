@@ -5,7 +5,7 @@
     "branch": "mm6.0"
   },
   {
-    "repository":  "Moto8916/android_kernel_motorola_msm8916",
+    "repository":  "Cyanogenmod/android_kernel_motorola_msm8916",
     "target_path": "kernel/motorola/msm8916",
     "branch": "cm-13.0"
   },
