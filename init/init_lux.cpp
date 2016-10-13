@@ -1,6 +1,5 @@
 /*
    Copyright (c) 2014, The Linux Foundation. All rights reserved.
-
    Redistribution and use in source and binary forms, with or without
    modification, are permitted provided that the following conditions are
    met:
@@ -13,7 +12,6 @@
     * Neither the name of The Linux Foundation nor the names of its
       contributors may be used to endorse or promote products derived
       from this software without specific prior written permission.
-
    THIS SOFTWARE IS PROVIDED "AS IS" AND ANY EXPRESS OR IMPLIED
    WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
    MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT
@@ -35,40 +33,30 @@
 #include "log.h"
 #include "util.h"
 
-#define ISMATCH(a,b)    (!strncmp(a,b,PROP_VALUE_MAX))
 
 static void dual_sim(void);
 static void single_sim(void);
 
 void vendor_load_properties()
 {
-    char platform[PROP_VALUE_MAX];
-    char radio[PROP_VALUE_MAX];
-    char sku[PROP_VALUE_MAX];
-    char carrier[PROP_VALUE_MAX];
-    char device[PROP_VALUE_MAX];
-    char devicename[PROP_VALUE_MAX];
-    char numsims[PROP_VALUE_MAX];
-    FILE *fp;
-    int rc;
-    bool force_msim = false;
+    std::string carrier;
+    std::string device;
+    std::string sku;
+    std::string platform;
+    std::string radio;
 
-    rc = property_get("ro.board.platform", platform);
-    if (!rc || !ISMATCH(platform, ANDROID_TARGET))
+    platform = property_get("ro.board.platform");
+    if (platform != ANDROID_TARGET)
         return;
 
-    property_get("ro.boot.radio", radio);
-    property_get("ro.boot.hardware.sku", sku);
-    property_get("ro.boot.carrier", carrier);
-    property_get("ro.boot.num-sims", numsims);
+    radio = property_get("ro.boot.radio");
+    sku = property_get("ro.boot.hardware.sku");
+    carrier = property_get("ro.boot.carrier");
 
-    property_set("ro.product.model", sku);
+    property_set("ro.product.model", sku.c_str());
 
-    if (atoi(numsims) >= 2)
-        force_msim = true;
-
-    if (!force_msim && (ISMATCH(carrier, "retgb") || ISMATCH(carrier, "reteu") || ISMATCH(carrier, "retde")
-            || ISMATCH(carrier, "vfau"))) {
+    if (carrier == "retgb" || carrier == "reteu" || carrier == "retde"
+            || carrier == "vfau") {
         // These are single SIM XT1562 devices
         single_sim();
         property_set("ro.product.device", "lux");
@@ -81,7 +69,7 @@ void vendor_load_properties()
         property_set("persist.radio.mot_ecc_enabled", "1");
         property_set("persist.radio.process_sups_ind", "0");
     }
-    else if (ISMATCH(sku, "XT1562") || ISMATCH(radio, "0x4")) {
+    else if (sku == "XT1562" || radio == "0x4") {
         dual_sim();
         property_set("ro.product.device", "lux_uds");
         property_set("ro.build.description", "lux_retasia_ds-user 5.1.1 LPD23.118-10 14 release-keys");
@@ -93,8 +81,8 @@ void vendor_load_properties()
         property_set("persist.radio.mot_ecc_enabled", "1");
         property_set("persist.radio.process_sups_ind", "0");
     }
-    else if (force_msim || ISMATCH(carrier, "retbr") || ISMATCH(carrier, "retla") || ISMATCH(carrier, "tefbr")
-            || ISMATCH(carrier, "timbr") || ISMATCH(carrier, "retmx")) {
+    else if (carrier == "retbr" || carrier == "retla" || carrier == "tefbr"
+            || carrier == "timbr" || carrier == "retmx") {
         // These are dual SIM XT1563 devices
         dual_sim();
         property_set("ro.product.device", "lux_uds");
@@ -106,7 +94,7 @@ void vendor_load_properties()
         property_set("persist.radio.mot_ecc_enabled", "1");
         property_set("persist.radio.process_sups_ind", "1");
     }
-    else if (ISMATCH(sku, "XT1563") || ISMATCH(radio, "0x8")) {
+    else if (sku == "XT1563" || radio == "0x8") {
         single_sim();
         property_set("ro.product.device", "lux");
         property_set("ro.build.description", "lux_retca-user 5.1.1 LPD23.118-10 19 release-keys");
@@ -118,9 +106,8 @@ void vendor_load_properties()
         property_set("persist.radio.process_sups_ind", "1");
     }
 
-    property_get("ro.product.device", device);
-    strlcpy(devicename, device, sizeof(devicename));
-    INFO("Found radio id: %s data %s setting build properties for %s device\n", radio, sku, devicename);
+    device = property_get("ro.product.device");
+    INFO("Found radio id: %s setting build properties for %s device\n", radio.c_str(), device.c_str());
 }
 
 static void dual_sim(void)
