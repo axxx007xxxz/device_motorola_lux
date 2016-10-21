@@ -15,6 +15,11 @@
     "branch": "n7.0"
   },
   {
+    "repository": "CyanogenMod/android_device_qcom_common",
+    "target_path": "device/qcom/common",
+    "branch": "cm-14.0"
+  },
+  {
     "repository": "Cyanogenmod/android_external_bson",
     "target_path": "external/bson",
     "branch": "cm-13.0"
